@@ -7,7 +7,6 @@
     "icon": "./assets/icon.png",
     "scheme": "planning-ooredoo",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -16,43 +15,25 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ooredoo.planning",
-      "buildNumber": "1.0.0",
-      "infoPlist": {
-        "UIStatusBarStyle": "UIStatusBarStyleLightContent"
-      }
+      "buildNumber": "1.0.0"
     },
     "android": {
       "package": "com.ooredoo.planning",
       "versionCode": 1,
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#E30613"
-      },
-      "edgeToEdgeEnabled": true,
-      "statusBar": {
-        "backgroundColor": "#E30613",
-        "barStyle": "light-content"
-      },
-      "permissions": []
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png",
-      "name": "Planning Ooredoo",
-      "shortName": "Planning",
-      "themeColor": "#E30613",
-      "backgroundColor": "#E30613",
-      "description": "Application de gestion de planning du travail pour Ooredoo",
       "bundler": "metro",
-      "output": "single",
-      "lang": "fr"
+      "output": "single"
     },
-    "plugins": [
-      "expo-print",
-      "expo-sharing"
-    ],
     "extra": {
       "eas": {
-        "projectId": ""
+        "projectId": "aa3db7a5-795a-42e3-9a0d-f97f5474f493"
       }
     }
   }

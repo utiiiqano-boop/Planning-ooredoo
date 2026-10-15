@@ -27,7 +27,6 @@ ios/
 .env.*.local
 
 # Firebase
-google-services.json
 GoogleService-Info.plist
 firebase-debug.log
 firestore-debug.log

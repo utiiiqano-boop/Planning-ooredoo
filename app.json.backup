@@ -1,27 +1,44 @@
 {
   "expo": {
-    "name": "planning-temp",
-    "slug": "planning-temp",
+    "name": "Planning Ooredoo",
+    "slug": "planning-ooredoo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "scheme": "planning-ooredoo",
     "userInterfaceStyle": "light",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ooredoo.planning",
+      "buildNumber": "1.0.0"
     },
     "android": {
+      "package": "com.ooredoo.planning",
+      "versionCode": 1,
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#E30613"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "output": "single"
     },
     "plugins": [
-      "expo-sharing"
-    ]
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#E30613"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "aa3db7a5-795a-42e3-9a0d-f97f5474f493"
+      }
+    }
   }
 }

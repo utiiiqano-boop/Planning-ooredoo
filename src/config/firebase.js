@@ -3,14 +3,12 @@ import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC7kE6mr3e9ItIGjAoUWwNELGQVGFqolSw",
-  authDomain: "planning-ooredoo.firebaseapp.com",
-  databaseURL: "https://planning-ooredoo-default-rtdb.firebaseio.com",
-  projectId: "planning-ooredoo",
-  storageBucket: "planning-ooredoo.firebasestorage.app",
-  messagingSenderId: "176372375824",
-  appId: "1:176372375824:web:58f7b3ed77b1450d408595",
-  measurementId: "G-68MMPDZWHL",
+  apiKey: "AIzaSyDORKjTAe_uwoDoGjtSRsG1UMo3ug4scbo",
+  authDomain: "planning-ooredoo-59b89.firebaseapp.com",
+  projectId: "planning-ooredoo-59b89",
+  storageBucket: "planning-ooredoo-59b89.firebasestorage.app",
+  messagingSenderId: "437814549774",
+  appId: "1:437814549774:web:dbd4972d7a2abfd173cb5f",
 };
 
 const app = initializeApp(firebaseConfig);

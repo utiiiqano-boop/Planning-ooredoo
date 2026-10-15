@@ -1,56 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { View, ActivityIndicator, StyleSheet, LogBox, Platform } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { subscribeAuth } from './src/services/authService';
-import SplashScreen from './src/screens/SplashScreen';
-import LoginScreen from './src/screens/LoginScreen';
-import PlanningScreen from './src/screens/PlanningScreen';
-import { COLORS } from './src/constants/theme';
-
-if (Platform.OS === 'web') {
-  LogBox.ignoreLogs([
-    'Animated: `useNativeDriver` is not supported',
-    'useNativeDriver',
-  ]);
-}
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
 export default function App() {
-  const [user, setUser] = useState(undefined);
-  const [splashDone, setSplashDone] = useState(false);
-
-  useEffect(() => {
-    const unsub = subscribeAuth(u => setUser(u || null));
-    return unsub;
-  }, []);
-
-  if (!splashDone) {
-    return (
-      <SafeAreaProvider>
-        <SplashScreen onFinish={() => setSplashDone(true)} />
-      </SafeAreaProvider>
-    );
-  }
-
-  if (user === undefined) {
-    return (
-      <View style={styles.loading}>
-        <ActivityIndicator size="large" color={COLORS.primary} />
-      </View>
-    );
-  }
-
   return (
-    <SafeAreaProvider>
-      {user ? <PlanningScreen /> : <LoginScreen />}
-    </SafeAreaProvider>
+    <View style={styles.container}>
+      <Text style={styles.text}>APP MINIMAL</Text>
+      <Text style={styles.sub}>Si tu vois ceci, Firebase n'est pas le problème</Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  loading: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5F6FA',
-  },
+  container: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#E30613' },
+  text: { fontSize: 32, fontWeight: 'bold', color: '#fff' },
+  sub: { fontSize: 14, color: '#fff', marginTop: 12, textAlign: 'center', paddingHorizontal: 20 },
 });
