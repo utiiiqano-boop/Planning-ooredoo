@@ -1,0 +1,203 @@
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { login } from '../services/authService';
+import { COLORS, FONT, SPACING, RADIUS, SHADOW } from '../constants/theme';
+
+export default function LoginScreen() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleLogin = async () => {
+    if (!email.trim() || !password) {
+      setError('Remplissez tous les champs');
+      return;
+    }
+    setError('');
+    setLoading(true);
+
+    try {
+      const result = await login(email.trim(), password);
+      setLoading(false);
+      if (!result.success) {
+        setError(result.error || 'Erreur de connexion');
+      }
+    } catch (e) {
+      setLoading(false);
+      setError(e.message);
+    }
+  };
+
+  return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      style={styles.container}
+    >
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        keyboardShouldPersistTaps="handled"
+      >
+        {/* LOGO */}
+        <View style={styles.logoContainer}>
+          <View style={styles.logoBox}>
+            <Ionicons name="calendar" size={52} color="#fff" />
+          </View>
+        </View>
+
+        {/* TITRE */}
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Planning Ooredoo</Text>
+          <Text style={styles.subtitle}>Connectez-vous pour continuer</Text>
+        </View>
+
+        {/* FORMULAIRE */}
+        <View style={styles.form}>
+          {error !== '' && (
+            <View style={styles.errorBox}>
+              <Ionicons name="alert-circle" size={18} color="#fff" />
+              <Text style={styles.errorTxt}>{error}</Text>
+            </View>
+          )}
+
+          <View style={styles.inputGroup}>
+            <Text style={styles.inputLabel}>Email</Text>
+            <View style={styles.inputWrapper}>
+              <Ionicons name="mail-outline" size={20} color={COLORS.textMuted} />
+              <TextInput
+                style={styles.input}
+                placeholder="exemple@ooredoo.dz"
+                placeholderTextColor={COLORS.textMuted}
+                value={email}
+                onChangeText={setEmail}
+                autoCapitalize="none"
+                keyboardType="email-address"
+                editable={!loading}
+              />
+            </View>
+          </View>
+
+          <View style={styles.inputGroup}>
+            <Text style={styles.inputLabel}>Mot de passe</Text>
+            <View style={styles.inputWrapper}>
+              <Ionicons name="lock-closed-outline" size={20} color={COLORS.textMuted} />
+              <TextInput
+                style={styles.input}
+                placeholder="••••••••"
+                placeholderTextColor={COLORS.textMuted}
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={!showPassword}
+                editable={!loading}
+                onSubmitEditing={handleLogin}
+              />
+              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                <Ionicons
+                  name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                  size={20}
+                  color={COLORS.textMuted}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <TouchableOpacity
+            style={[styles.loginBtn, loading && styles.loginBtnDisabled]}
+            onPress={handleLogin}
+            disabled={loading}
+            activeOpacity={0.85}
+          >
+            {loading ? (
+              <View style={styles.loadingRow}>
+                <ActivityIndicator color="#fff" size="small" />
+                <Text style={styles.loginBtnTxt}>Connexion...</Text>
+              </View>
+            ) : (
+              <>
+                <Ionicons name="log-in-outline" size={20} color="#fff" />
+                <Text style={styles.loginBtnTxt}>Se connecter</Text>
+              </>
+            )}
+          </TouchableOpacity>
+
+          <Text style={styles.hint}>
+            Utilisez le compte créé dans Firebase Console
+          </Text>
+        </View>
+
+        <View style={styles.footer}>
+          <Text style={styles.footerTxt}>© 2026 Planning Ooredoo</Text>
+          <Text style={styles.footerVersion}>v1.0.0</Text>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: COLORS.bg },
+  scrollContent: {
+    flexGrow: 1,
+    paddingHorizontal: SPACING.lg,
+    paddingTop: 60,
+    paddingBottom: 40,
+    justifyContent: 'center',
+  },
+  logoContainer: { alignItems: 'center', marginBottom: SPACING.xl },
+  logoBox: {
+    width: 100,
+    height: 100,
+    borderRadius: 28,
+    backgroundColor: COLORS.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    ...SHADOW.lg,
+  },
+  titleContainer: { alignItems: 'center', marginBottom: SPACING.xl },
+  title: { fontSize: 26, fontWeight: '800', color: COLORS.textPrimary, letterSpacing: -0.5 },
+  subtitle: { fontSize: FONT.md, color: COLORS.textSecondary, marginTop: 6 },
+  form: { width: '100%' },
+  errorBox: {
+    flexDirection: 'row', alignItems: 'center', gap: 8,
+    backgroundColor: COLORS.danger,
+    paddingHorizontal: SPACING.md, paddingVertical: SPACING.sm + 2,
+    borderRadius: RADIUS.md, marginBottom: SPACING.md,
+  },
+  errorTxt: { color: '#fff', fontSize: FONT.sm, fontWeight: '600', flex: 1 },
+  inputGroup: { marginBottom: SPACING.md },
+  inputLabel: { fontSize: FONT.sm, fontWeight: '700', color: COLORS.textPrimary, marginBottom: 6, marginLeft: 4 },
+  inputWrapper: {
+    flexDirection: 'row', alignItems: 'center', gap: 10,
+    backgroundColor: '#fff', borderRadius: RADIUS.md,
+    paddingHorizontal: SPACING.md, paddingVertical: 14,
+    borderWidth: 1.5, borderColor: COLORS.border,
+    ...SHADOW.sm,
+  },
+  input: { flex: 1, fontSize: FONT.md, color: COLORS.textPrimary },
+  loginBtn: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10,
+    backgroundColor: COLORS.primary,
+    paddingVertical: SPACING.md + 4, borderRadius: RADIUS.md,
+    marginTop: SPACING.md,
+    ...SHADOW.md,
+  },
+  loginBtnDisabled: { opacity: 0.7 },
+  loginBtnTxt: { color: '#fff', fontWeight: '700', fontSize: FONT.lg - 1 },
+  loadingRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  hint: { fontSize: FONT.xs, color: COLORS.textMuted, fontStyle: 'italic', textAlign: 'center', marginTop: SPACING.lg },
+  footer: { alignItems: 'center', marginTop: SPACING.xxl, gap: 4 },
+  footerTxt: { fontSize: FONT.xs, color: COLORS.textMuted, fontWeight: '600' },
+  footerVersion: { fontSize: 10, color: COLORS.textMuted, opacity: 0.7 },
+});

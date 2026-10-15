@@ -1,33 +1,52 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { subscribeAuth } from './src/services/authService';
+import SplashScreen from './src/screens/SplashScreen';
+import LoginScreen from './src/screens/LoginScreen';
+import PlanningScreen from './src/screens/PlanningScreen';
+import { COLORS } from './src/constants/theme';
 
 export default function App() {
+  const [user, setUser] = useState(undefined);
+  const [splashDone, setSplashDone] = useState(false);
+
+  useEffect(() => {
+    const unsub = subscribeAuth(u => setUser(u || null));
+    return unsub;
+  }, []);
+
+  // 1. Splash screen en premier
+  if (!splashDone) {
+    return (
+      <SafeAreaProvider>
+        <SplashScreen onFinish={() => setSplashDone(true)} />
+      </SafeAreaProvider>
+    );
+  }
+
+  // 2. Chargement de Firebase Auth
+  if (user === undefined) {
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator size="large" color={COLORS.primary} />
+      </View>
+    );
+  }
+
+  // 3. Login ou Planning selon l'état d'auth
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>TEST 1: APP NUE</Text>
-      <Text style={styles.sub}>Si tu vois ceci → le problème vient d'un composant</Text>
-    </View>
+    <SafeAreaProvider>
+      {user ? <PlanningScreen /> : <LoginScreen />}
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  loading: {
     flex: 1,
-    backgroundColor: '#E30613',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
-  },
-  text: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#fff',
-    textAlign: 'center',
-  },
-  sub: {
-    fontSize: 14,
-    color: '#fff',
-    marginTop: 12,
-    textAlign: 'center',
+    backgroundColor: '#F5F6FA',
   },
 });
