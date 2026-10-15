@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "437814549774",
+    "project_id": "planning-ooredoo-59b89",
+    "storage_bucket": "planning-ooredoo-59b89.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:437814549774:android:27e96583fa67ba9c73cb5f",
+        "android_client_info": {
+          "package_name": "com.ooredoo.planning"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4UEL3x8BZD8P0D9xSj6AVe1yoXCjbNKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
